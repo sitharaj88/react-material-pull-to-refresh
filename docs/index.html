@@ -299,6 +299,49 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
+        /* Responsive table wrapper */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 768px) {
+            .table-responsive {
+                margin: 0 -1rem;
+                padding: 0 1rem;
+            }
+
+            .api-table {
+                min-width: 600px;
+                font-size: 0.875rem;
+            }
+
+            .api-table th,
+            .api-table td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .api-table th {
+                font-size: 0.8rem;
+                font-weight: 700;
+            }
+
+            .api-table td {
+                white-space: nowrap;
+            }
+
+            .api-table td:last-child {
+                white-space: normal;
+                min-width: 180px;
+                max-width: 200px;
+            }
+
+            /* Make prop names more prominent on mobile */
+            .api-table td:first-child code {
+                font-size: 0.9rem;
+            }
+        }
+
         .api-table th,
         .api-table td {
             padding: 1rem;
@@ -569,7 +612,8 @@ function App() {
     <section id="api" class="section api">
         <div class="container">
             <h2>📚 API Reference</h2>
-            <table class="api-table">
+            <div class="table-responsive">
+                <table class="api-table">
                 <thead>
                     <tr>
                         <th>Prop</th>
@@ -617,6 +661,7 @@ function App() {
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
     </section>
 
