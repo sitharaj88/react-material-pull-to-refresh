@@ -71,7 +71,7 @@ npm run lint
 
 ## 📖 Documentation
 
-Full documentation with examples and API reference is available at: [react-material-pull-to-refresh.pages.dev](https://react-material-pull-to-refresh.pages.dev)
+Full documentation with examples and API reference is available at: [sitharaj88.github.io/react-material-pull-to-refresh](https://sitharaj88.github.io/react-material-pull-to-refresh/)
 
 The documentation includes:
 - Interactive live demo
