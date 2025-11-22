@@ -7,7 +7,8 @@
   "files": [
     "dist/react-material-pull-to-refresh.es.js",
     "dist/react-material-pull-to-refresh.umd.js",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "dev": "vite",
@@ -25,7 +26,7 @@
     "gesture"
   ],
   "author": "Your Name",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/sitharaj88/react-material-pull-to-refresh.git"
