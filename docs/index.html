@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Pull Refresh - Modern Pull-to-Refresh Component</title>
+    <meta name="description" content="A beautiful, customizable React component for pull-to-refresh functionality with Material Design animations.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fafbfc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffffff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+            border: 2px solid white;
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        /* Navigation */
+        .nav {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #1a1a1a;
+        }
+
+        .section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        /* Features */
+        .features {
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+        }
+
+        /* Installation */
+        .installation {
+            background: #f8f9fa;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 2rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1a202c;
+            padding: 0.5rem 1rem;
+            border-radius: 8px 8px 0 0;
+            border-bottom: 1px solid #4a5568;
+            font-size: 0.8rem;
+            color: #a0aec0;
+        }
+
+        .code-header span {
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            background: #4a5568;
+            color: #e2e8f0;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: background-color 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: #718096;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-left: 1rem;
+        }
+
+        /* Usage */
+        .usage {
+            background: white;
+        }
+
+        .usage-examples {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .example-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .example-header {
+            background: #f8f9fa;
+            padding: 1rem;
+            font-weight: 600;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .example-content {
+            padding: 1.5rem;
+        }
+
+        /* API */
+        .api {
+            background: #f8f9fa;
+        }
+
+        .api-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .api-table th,
+        .api-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .api-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .api-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .prop-type {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .usage-examples {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="container nav-container">
+            <div class="nav-brand">React Pull Refresh</div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#installation">Installation</a></li>
+                <li><a href="#usage">Usage</a></li>
+                <li><a href="#api">API</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="header">
+        <div class="container">
+            <h1>React Pull Refresh</h1>
+            <p>A beautiful, customizable React component for pull-to-refresh functionality with smooth Material Design animations. Perfect for mobile and desktop applications.</p>
+            <div class="cta-buttons">
+                <a href="#installation" class="btn btn-primary">
+                    🚀 Get Started
+                </a>
+                <a href="https://github.com/sitharaj88/react-material-pull-to-refresh" class="btn btn-secondary">
+                    📖 View on GitHub
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="section features">
+        <div class="container">
+            <h2>✨ Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">📱</span>
+                    <h3>Touch & Mouse Support</h3>
+                    <p>Works seamlessly on both mobile touch devices and desktop with mouse interactions.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎨</span>
+                    <h3>Material Design</h3>
+                    <p>Beautiful Material Design animations with customizable colors and smooth transitions.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <h3>High Performance</h3>
+                    <p>Optimized for performance with efficient rendering and smooth 60fps animations.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔧</span>
+                    <h3>Fully Customizable</h3>
+                    <p>Customize colors, thresholds, animations, and behavior to match your app's design.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📦</span>
+                    <h3>Lightweight</h3>
+                    <p>Small bundle size with tree-shaking support. Only includes what you need.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎯</span>
+                    <h3>TypeScript Ready</h3>
+                    <p>Full TypeScript support with comprehensive type definitions included.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="installation" class="section installation">
+        <div class="container">
+            <h2>📦 Installation</h2>
+            <p>Install React Pull to Refresh using your favorite package manager:</p>
+
+            <h3>npm</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span>Terminal</span>
+                    <button class="copy-btn" onclick="copyToClipboard('npm-install')">Copy</button>
+                </div>
+                <pre><code class="language-bash">npm install react-material-pull-to-refresh</code></pre>
+            </div>
+
+            <h3>yarn</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span>Terminal</span>
+                    <button class="copy-btn" onclick="copyToClipboard('yarn-install')">Copy</button>
+                </div>
+                <pre><code class="language-bash">yarn add react-material-pull-to-refresh</code></pre>
+            </div>
+
+            <h3>pnpm</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span>Terminal</span>
+                    <button class="copy-btn" onclick="copyToClipboard('pnpm-install')">Copy</button>
+                </div>
+                <pre><code class="language-bash">pnpm add react-material-pull-to-refresh</code></pre>
+            </div>
+
+            <p><strong>Peer Dependencies:</strong> React 16.8+ and React DOM 16.8+ are required.</p>
+        </div>
+    </section>
+
+    <section id="usage" class="section usage">
+        <div class="container">
+            <h2>🚀 Usage</h2>
+            <div class="usage-examples">
+                <div class="example-card">
+                    <div class="example-header">Basic Usage</div>
+                    <div class="example-content">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>React Component</span>
+                                <button class="copy-btn" onclick="copyToClipboard('basic-usage')">Copy</button>
+                            </div>
+                            <pre><code class="language-jsx">import React from 'react';
+import PullToRefresh from 'react-material-pull-to-refresh';
+
+function App() {
+  const handleRefresh = async () => {
+    // Your refresh logic here
+    await fetchNewData();
+  };
+
+  return (
+    &lt;PullToRefresh onRefresh={handleRefresh}&gt;
+      &lt;div&gt;
+        &lt;!-- Your content here --&gt;
+        &lt;h1&gt;Pull down to refresh&lt;/h1&gt;
+        &lt;p&gt;Content goes here...&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/PullToRefresh&gt;
+  );
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-header">Advanced Configuration</div>
+                    <div class="example-content">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>React Component</span>
+                                <button class="copy-btn" onclick="copyToClipboard('advanced-usage')">Copy</button>
+                            </div>
+                            <pre><code class="language-jsx">&lt;PullToRefresh
+  onRefresh={handleRefresh}
+  threshold={100}
+  maxPull={200}
+  color="#ff6b6b"
+  backgroundColor="#f8f9fa"
+&gt;
+  &lt;YourContent /&gt;
+&lt;/PullToRefresh&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="api" class="section api">
+        <div class="container">
+            <h2>📚 API Reference</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Prop</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>children</code></td>
+                        <td><span class="prop-type">ReactNode</span></td>
+                        <td>-</td>
+                        <td>The content to wrap with pull-to-refresh functionality</td>
+                    </tr>
+                    <tr>
+                        <td><code>onRefresh</code></td>
+                        <td><span class="prop-type">() => Promise&lt;void&gt;</span></td>
+                        <td><code>() => Promise.resolve()</code></td>
+                        <td>Function called when refresh is triggered</td>
+                    </tr>
+                    <tr>
+                        <td><code>threshold</code></td>
+                        <td><span class="prop-type">number</span></td>
+                        <td><code>80</code></td>
+                        <td>Distance in pixels to trigger refresh</td>
+                    </tr>
+                    <tr>
+                        <td><code>maxPull</code></td>
+                        <td><span class="prop-type">number</span></td>
+                        <td><code>180</code></td>
+                        <td>Maximum pull distance allowed</td>
+                    </tr>
+                    <tr>
+                        <td><code>color</code></td>
+                        <td><span class="prop-type">string</span></td>
+                        <td><code>'#2563eb'</code></td>
+                        <td>Color of the spinner and arrow</td>
+                    </tr>
+                    <tr>
+                        <td><code>backgroundColor</code></td>
+                        <td><span class="prop-type">string</span></td>
+                        <td><code>'#ffffff'</code></td>
+                        <td>Background color of the indicator bubble</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://github.com/sitharaj88/react-material-pull-to-refresh">GitHub</a>
+                <a href="https://www.npmjs.com/package/react-material-pull-to-refresh">npm</a>
+                <a href="#api">API Docs</a>
+            </div>
+            <p>&copy; 2025 React Pull Refresh. Built with ❤️ using React.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Copy to clipboard functionality
+        function copyToClipboard(type) {
+            const codeBlocks = {
+                'npm-install': 'npm install react-material-pull-to-refresh',
+                'yarn-install': 'yarn add react-material-pull-to-refresh',
+                'pnpm-install': 'pnpm add react-material-pull-to-refresh',
+                'basic-usage': `import React from 'react';
+import PullToRefresh from 'react-material-pull-to-refresh';
+
+function App() {
+  const handleRefresh = async () => {
+    // Your refresh logic here
+    await fetchNewData();
+  };
+
+  return (
+    <PullToRefresh onRefresh={handleRefresh}>
+      <div>
+        {/* Your content here */}
+        <h1>Pull down to refresh</h1>
+        <p>Content goes here...</p>
+      </div>
+    </PullToRefresh>
+  );
+}`,
+                'advanced-usage': `<PullToRefresh
+  onRefresh={handleRefresh}
+  threshold={100}
+  maxPull={200}
+  color="#ff6b6b"
+  backgroundColor="#f8f9fa"
+>
+  <YourContent />
+</PullToRefresh>`
+            };
+
+            const text = codeBlocks[type];
+            if (text) {
+                navigator.clipboard.writeText(text).then(() => {
+                    // Show success feedback
+                    const btn = event.target;
+                    const originalText = btn.textContent;
+                    btn.textContent = 'Copied!';
+                    btn.style.background = '#48bb78';
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.style.background = '';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            }
+        }
+
+        // Add intersection observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
